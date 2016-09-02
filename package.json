@@ -1,0 +1,28 @@
+{
+  "name": "nyt_mern",
+  "version": "1.0.0",
+  "description": "New York Times MERN searcher",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/herbertg14/NYT_mern.git"
+  },
+  "author": "Herbert Gutierrez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/herbertg14/NYT_mern/issues"
+  },
+  "homepage": "https://github.com/herbertg14/NYT_mern#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cheerio": "^0.22.0",
+    "express": "^4.14.0",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.5.10",
+    "morgan": "^1.7.0",
+    "request": "^2.74.0"
+  }
+}
