@@ -10,10 +10,10 @@ var Main = React.createClass({
         return{
             searchTerm:"",
             startYear:"",
-            endYear:""
+            endYear:"",
+            results:[]
         }
     },
-    
 
     setSearch: function(search, startYear, endYear){
     	this.setState({
@@ -21,6 +21,15 @@ var Main = React.createClass({
     		startYear: startYear,
     		endYear: endYear
     	})
+    },
+
+    componentDidUpdate: function(prevProps, prevState){
+    	if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear){
+
+    		console.log("update to search made");
+
+    		helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
+    	}
     },
 
     render: function(){
