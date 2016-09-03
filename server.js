@@ -36,6 +36,24 @@ app.get('/', function(req,res){
 })
 
 
+//CHECK
+app.get('/api/', function(req,res){
+	Article.find({})
+		.exec(function(err,doc){
+			if (err){
+				console.log(err);
+			}else{
+				res.send(doc);
+			}
+		})
+});
+
+//CHECK
+// app.post('/api/:article', function(req,res){
+// 	var
+// })
+
+//Listener
 app.listen(PORT, function(){
 	console.log("Listening on port: " +  PORT);
 })

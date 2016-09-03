@@ -1,11 +1,11 @@
 module.exports = {
   
   // This code will be compiled 
-  entry: "./app/App.js",
+  entry: "./app/app.js",
 
   // Then output into this file
   output: {
-    filename: "public/bundle.js"
+    filename: "./public/bundle.js"
   },
 
   // This will be what we do
