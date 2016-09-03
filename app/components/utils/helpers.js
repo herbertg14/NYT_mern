@@ -8,7 +8,7 @@ var helpers = {
 	runQuery: function(searchTerm, startYear, endYear){
 		// console.log("in run query");
 
-		var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ searchTerm +"&page=0&sort=newest&begin_date="+startYear+"0101&end_date="+endYear+"0101&api-key=" + key;
+		var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ searchTerm +"&page=0&sort=newest&begin_date="+startYear+"0101&end_date="+endYear+"0101&api-key=" + key;
 		var options = {
 			url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
 			qs: {
