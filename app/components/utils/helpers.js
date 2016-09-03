@@ -33,8 +33,8 @@ var helpers = {
 
 		return axios.get('/api')
 			.then(function(response){
-				// console.log("inside get saved function");
-				// console.log(response.data);
+				console.log("inside get saved function");
+				console.log(response.data);
 				return response.data;
 			});
 	},

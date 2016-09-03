@@ -24,6 +24,10 @@ var Main = React.createClass({
     	})
     },
 
+    updateSaved: function(saved){
+        console.log("updated states of saved");
+    },
+
     componentDidUpdate: function(prevProps, prevState){
     	if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear){
 
@@ -32,7 +36,8 @@ var Main = React.createClass({
     		helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
     			.then(function(data){
     				if (data != this.state.results){
-    					console.log("API data", data);
+    					console.log("Receiving new data");
+                        // helpers.getSaved();
     					this.setState({
     						results: data
     					})
@@ -45,8 +50,11 @@ var Main = React.createClass({
     				}
     				// console.log(data);
     			}.bind(this))
-    	}
-        helpers.getSaved();
+    	} else if (prevState.saved != this.state.saved){
+            console.log("saved articles updated");
+        }
+        // .bind(this)
+        // helpers.getSaved();
     },
 
     componentDidMount: function(){
@@ -74,7 +82,7 @@ var Main = React.createClass({
                 </div>
 
                 <div className='col-md-12'>
-                    <Results results={this.state.results} />
+                    <Results results={this.state.results} updateSaved={this.updateSaved}/>
                 </div>
 
                 <div className='col-md-12'>

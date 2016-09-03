@@ -19781,6 +19781,10 @@
 	        });
 	    },
 
+	    updateSaved: function updateSaved(saved) {
+	        console.log("updated states of saved");
+	    },
+
 	    componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
 	        if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear) {
 
@@ -19788,7 +19792,8 @@
 
 	            helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear).then(function (data) {
 	                if (data != this.state.results) {
-	                    console.log("API data", data);
+	                    console.log("Receiving new data");
+	                    // helpers.getSaved();
 	                    this.setState({
 	                        results: data
 	                    });
@@ -19800,8 +19805,11 @@
 	                }
 	                // console.log(data);
 	            }.bind(this));
+	        } else if (prevState.saved != this.state.saved) {
+	            console.log("saved articles updated");
 	        }
-	        helpers.getSaved();
+	        // .bind(this)
+	        // helpers.getSaved();
 	    },
 
 	    componentDidMount: function componentDidMount() {
@@ -19831,7 +19839,7 @@
 	            React.createElement(
 	                'div',
 	                { className: 'col-md-12' },
-	                React.createElement(Results, { results: this.state.results })
+	                React.createElement(Results, { results: this.state.results, updateSaved: this.updateSaved })
 	            ),
 	            React.createElement(
 	                'div',
@@ -19963,6 +19971,8 @@
 		// console.log("article: ", article);
 
 		helpers.saveArticle(article, i);
+
+		// this.updateSaved();
 		// .then(function(data){
 		// 	console.log("saved the article got data back");
 		// })
@@ -19990,7 +20000,7 @@
 					{ className: 'panel-body text-center' },
 					this.props.results.map(function (search, i) {
 						var boundClick = saveArticle.bind(this, search, i);
-
+						// this.props.updateSaved();
 						return React.createElement(
 							'div',
 							{ key: i },
@@ -20052,8 +20062,8 @@
 		getSaved: function getSaved() {
 
 			return axios.get('/api').then(function (response) {
-				// console.log("inside get saved function");
-				// console.log(response.data);
+				console.log("inside get saved function");
+				console.log(response.data);
 				return response.data;
 			});
 		},
