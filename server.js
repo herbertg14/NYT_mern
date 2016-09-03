@@ -18,8 +18,8 @@ app.use(express.static('./public'));
 
 
 // Establish connection with database
-mongoose.connect('mongodb://localhost/nytreact');
-// mongoose.connect('mongodb://heroku_j438z0bc:9n4277n07uqc047groqsafqb66@ds019796.mlab.com:19796/nytreact');
+// mongoose.connect('mongodb://localhost/nytreact');
+mongoose.connect('mongodb://heroku_j438z0bc:9n4277n07uqc047groqsafqb66@ds019796.mlab.com:19796/nytreact');
 var db = mongoose.connection;
 
 
