@@ -19839,7 +19839,7 @@
 	            React.createElement(
 	                'div',
 	                { className: 'col-md-12' },
-	                React.createElement(Results, { results: this.state.results, updateSaved: this.updateSaved })
+	                React.createElement(Results, { results: this.state.results })
 	            ),
 	            React.createElement(
 	                'div',
@@ -19851,6 +19851,7 @@
 	});
 
 	module.exports = Main;
+	// updateSaved={this.updateSaved}
 
 /***/ },
 /* 160 */
@@ -20009,6 +20010,7 @@
 								null,
 								search.headline.main
 							),
+							React.createElement('br', null),
 							React.createElement(
 								'button',
 								{ type: 'button', className: 'btn btn-primary', onClick: boundClick },
@@ -20039,7 +20041,7 @@
 		runQuery: function runQuery(searchTerm, startYear, endYear) {
 			// console.log("in run query");
 
-			var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + searchTerm + "&page=0&sort=newest&begin_date=" + startYear + "0101&end_date=" + endYear + "0101&api-key=" + key;
+			var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + searchTerm + "&page=0&sort=newest&begin_date=" + startYear + "0101&end_date=" + endYear + "0101&api-key=" + key;
 			var options = {
 				url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
 				qs: {

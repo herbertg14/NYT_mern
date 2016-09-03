@@ -18,8 +18,8 @@ app.use(express.static('./public'));
 
 
 // Establish connection with database
-// mongoose.connect('mongodb://localhost/nytreact');
-mongoose.connect('mongodb://heroku_j438z0bc:9n4277n07uqc047groqsafqb66@ds019796.mlab.com:19796/heroku_j438z0bc');
+mongoose.connect('mongodb://localhost/nytreact');
+// mongoose.connect('mongodb://heroku_j438z0bc:9n4277n07uqc047groqsafqb66@ds019796.mlab.com:19796/nytreact');
 var db = mongoose.connection;
 
 
@@ -52,8 +52,8 @@ app.get('/api/', function(req,res){
 
 //CHECK
 app.post('/api/', function(req, res){
-  var newSearch = new Article(req.body);
-  console.log("BODY: " + req.body.location);
+  // var newSearch = new Article(req.body);
+  // console.log("BODY: " + req.body);
 
   Article.create({"title": req.body.headline.main, "url": req.body.web_url,"date": Date.now()}, function(err){
   	if(err){

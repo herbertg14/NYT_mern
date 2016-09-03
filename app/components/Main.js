@@ -82,7 +82,7 @@ var Main = React.createClass({
                 </div>
 
                 <div className='col-md-12'>
-                    <Results results={this.state.results} updateSaved={this.updateSaved}/>
+                    <Results results={this.state.results}/>
                 </div>
 
                 <div className='col-md-12'>
@@ -94,3 +94,4 @@ var Main = React.createClass({
 })
 
 module.exports = Main;
+// updateSaved={this.updateSaved}
