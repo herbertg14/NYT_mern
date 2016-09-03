@@ -19757,8 +19757,8 @@
 
 	var Form = __webpack_require__(160);
 	var Results = __webpack_require__(161);
-	var Saved = __webpack_require__(162);
-	var helpers = __webpack_require__(163);
+	var Saved = __webpack_require__(182);
+	var helpers = __webpack_require__(162);
 
 	var Main = React.createClass({
 	    displayName: 'Main',
@@ -19787,13 +19787,10 @@
 
 	            helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear).then(function (data) {
 	                if (data != this.state.results) {
-	                    // console.log("API data", data);
+	                    console.log("API data", data);
 	                    this.setState({
 	                        results: data
-	                    }).then(function () {
-	                        console.log("inside the promise");
-	                        console.log(this.state.results);
-	                    }.bind(this));
+	                    });
 
 	                    ///////////////////////////
 
@@ -19817,7 +19814,7 @@
 	            React.createElement(
 	                'div',
 	                { className: 'col-md-12' },
-	                React.createElement(Results, null)
+	                React.createElement(Results, { results: this.state.results })
 	            ),
 	            React.createElement(
 	                'div',
@@ -19937,28 +19934,60 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
+	var helpers = __webpack_require__(162);
+
+	var saveArticle = function saveArticle(search, i) {
+		var article = search;
+
+		// console.log("article: ", article);
+
+		helpers.saveArticle(article, i);
+	};
+
 	var Results = React.createClass({
-		displayName: "Results",
+		displayName: 'Results',
 
 
 		render: function render() {
 			return React.createElement(
-				"div",
-				{ className: "panel panel-info" },
+				'div',
+				{ className: 'panel panel-info' },
 				React.createElement(
-					"div",
-					{ className: "panel-heading" },
+					'div',
+					{ className: 'panel-heading' },
 					React.createElement(
-						"h3",
-						{ className: "panel-title text-center" },
-						"Results"
+						'h3',
+						{ className: 'panel-title text-center' },
+						'Results'
 					)
 				),
-				React.createElement("div", { className: "panel-body text-center" })
+				React.createElement(
+					'div',
+					{ className: 'panel-body text-center' },
+					this.props.results.map(function (search, i) {
+						var boundClick = saveArticle.bind(this, search, i);
+
+						return React.createElement(
+							'div',
+							{ key: i },
+							React.createElement(
+								'p',
+								null,
+								search.headline.main
+							),
+							React.createElement(
+								'button',
+								{ type: 'button', className: 'btn btn-primary', onClick: boundClick },
+								'Save'
+							)
+						);
+						// return <p key={i}>{search.lead_paragraph}</p>
+					})
+				)
 			);
 		}
 	});
@@ -19970,37 +19999,7 @@
 
 	"use strict";
 
-	var React = __webpack_require__(1);
-
-	var Saved = React.createClass({
-		displayName: "Saved",
-
-		render: function render() {
-			return React.createElement(
-				"div",
-				{ className: "panel panel-info" },
-				React.createElement(
-					"div",
-					{ className: "panel-heading" },
-					React.createElement(
-						"h3",
-						{ className: "panel-title text-center" },
-						"Saved Articles"
-					)
-				),
-				React.createElement("div", { className: "panel-body text-center" })
-			);
-		}
-	});
-	module.exports = Saved;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var axios = __webpack_require__(164);
+	var axios = __webpack_require__(163);
 	// var rp = require('request-promise');
 	// var request = require('request'); 
 
@@ -20028,31 +20027,44 @@
 				// console.log(data);
 				return data;
 			});
+		},
+
+		saveArticle: function saveArticle(article, i) {
+			// console.log(article);
+			return axios.post('/api', article);
+			// .then(function(results){
+
+			// 	console.log("Posted to MongoDB");
+			// return(results);
+			// })
 		}
 
+		// getSearch: function(){
+
+		// }
 	};
 	module.exports = helpers;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(164);
 
 /***/ },
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(165);
-
-/***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
-	var defaults = __webpack_require__(166);
-	var utils = __webpack_require__(167);
-	var dispatchRequest = __webpack_require__(169);
-	var InterceptorManager = __webpack_require__(178);
-	var isAbsoluteURL = __webpack_require__(179);
-	var combineURLs = __webpack_require__(180);
-	var bind = __webpack_require__(181);
-	var transformData = __webpack_require__(173);
+	var defaults = __webpack_require__(165);
+	var utils = __webpack_require__(166);
+	var dispatchRequest = __webpack_require__(168);
+	var InterceptorManager = __webpack_require__(177);
+	var isAbsoluteURL = __webpack_require__(178);
+	var combineURLs = __webpack_require__(179);
+	var bind = __webpack_require__(180);
+	var transformData = __webpack_require__(172);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -20141,7 +20153,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(182);
+	axios.spread = __webpack_require__(181);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -20169,13 +20181,13 @@
 
 
 /***/ },
-/* 166 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
-	var normalizeHeaderName = __webpack_require__(168);
+	var utils = __webpack_require__(166);
+	var normalizeHeaderName = __webpack_require__(167);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -20247,7 +20259,7 @@
 
 
 /***/ },
-/* 167 */
+/* 166 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20530,12 +20542,12 @@
 
 
 /***/ },
-/* 168 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -20548,7 +20560,7 @@
 
 
 /***/ },
-/* 169 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20570,10 +20582,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(170);
+	        adapter = __webpack_require__(169);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(170);
+	        adapter = __webpack_require__(169);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -20589,18 +20601,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 170 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(167);
-	var buildURL = __webpack_require__(171);
-	var parseHeaders = __webpack_require__(172);
-	var transformData = __webpack_require__(173);
-	var isURLSameOrigin = __webpack_require__(174);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(175);
-	var settle = __webpack_require__(176);
+	var utils = __webpack_require__(166);
+	var buildURL = __webpack_require__(170);
+	var parseHeaders = __webpack_require__(171);
+	var transformData = __webpack_require__(172);
+	var isURLSameOrigin = __webpack_require__(173);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(174);
+	var settle = __webpack_require__(175);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -20697,7 +20709,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(177);
+	    var cookies = __webpack_require__(176);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -20758,12 +20770,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 171 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -20832,12 +20844,12 @@
 
 
 /***/ },
-/* 172 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	/**
 	 * Parse headers into an object
@@ -20875,12 +20887,12 @@
 
 
 /***/ },
-/* 173 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	/**
 	 * Transform the data for a request or a response
@@ -20901,12 +20913,12 @@
 
 
 /***/ },
-/* 174 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -20975,7 +20987,7 @@
 
 
 /***/ },
-/* 175 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21017,7 +21029,7 @@
 
 
 /***/ },
-/* 176 */
+/* 175 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21041,12 +21053,12 @@
 
 
 /***/ },
-/* 177 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -21100,12 +21112,12 @@
 
 
 /***/ },
-/* 178 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(167);
+	var utils = __webpack_require__(166);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -21158,7 +21170,7 @@
 
 
 /***/ },
-/* 179 */
+/* 178 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21178,7 +21190,7 @@
 
 
 /***/ },
-/* 180 */
+/* 179 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21196,7 +21208,7 @@
 
 
 /***/ },
-/* 181 */
+/* 180 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21213,7 +21225,7 @@
 
 
 /***/ },
-/* 182 */
+/* 181 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21244,6 +21256,36 @@
 	  };
 	};
 
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var Saved = React.createClass({
+		displayName: "Saved",
+
+		render: function render() {
+			return React.createElement(
+				"div",
+				{ className: "panel panel-info" },
+				React.createElement(
+					"div",
+					{ className: "panel-heading" },
+					React.createElement(
+						"h3",
+						{ className: "panel-title text-center" },
+						"Saved Articles"
+					)
+				),
+				React.createElement("div", { className: "panel-body text-center" })
+			);
+		}
+	});
+	module.exports = Saved;
 
 /***/ }
 /******/ ]);

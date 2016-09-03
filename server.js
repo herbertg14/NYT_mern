@@ -33,7 +33,7 @@ db.once('open', function(){
 //Routes
 app.get('/', function(req,res){
 	res.sendFile('./public/index.html');
-})
+});
 
 
 //CHECK
@@ -49,11 +49,29 @@ app.get('/api/', function(req,res){
 });
 
 //CHECK
-app.post('/api/', function(req,res){
-	console.log("posting");
-	console.log(req.body);
-	// var newSearch = new Article(req.body)
-})
+app.post('/api/', function(req, res){
+  var newSearch = new Article(req.body);
+  console.log("BODY: " + req.body.location);
+
+  Article.create({"title": req.body.headline.main, "url": req.body.web_url,"date": Date.now()}, function(err){
+  	if(err){
+  		console.log(err);
+  	}else{
+  		console.log("saved the search!");
+  	}
+  })
+
+  // Here we'll save the location based on the JSON input. 
+  // We'll use Date.now() to always get the current date time
+  // History.create({"location": req.body.location, "date": Date.now()}, function(err){
+  //   if(err){
+  //     console.log(err);
+  //   }
+  //   else {
+  //     res.send("Saved Search");
+  //   }
+  // })
+});
 
 //Listener
 app.listen(PORT, function(){

@@ -29,6 +29,16 @@ var helpers = {
 			})
 	},
 
+	saveArticle: function(article, i){
+		// console.log(article);
+		return axios.post('/api', article)
+			// .then(function(results){
+
+			// 	console.log("Posted to MongoDB");
+				// return(results);
+			// })
+	}
+
 	// getSearch: function(){
 		
 	// }

@@ -31,7 +31,7 @@ var Main = React.createClass({
     		helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
     			.then(function(data){
     				if (data != this.state.results){
-    					// console.log("API data", data);
+    					console.log("API data", data);
     					this.setState({
     						results: data
     					})
@@ -55,7 +55,7 @@ var Main = React.createClass({
                 </div>
 
                 <div className='col-md-12'>
-                    <Results/>
+                    <Results results={this.state.results} />
                 </div>
 
                 <div className='col-md-12'>
