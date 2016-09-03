@@ -6,7 +6,7 @@ var key = "910f87367bad43da8984cee4e521240a";
 
 var helpers = {
 	runQuery: function(searchTerm, startYear, endYear){
-		console.log("in run query");
+		// console.log("in run query");
 
 		var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ searchTerm +"&page=0&sort=newest&begin_date="+startYear+"0101&end_date="+endYear+"0101&api-key=" + key;
 		var options = {
@@ -29,14 +29,24 @@ var helpers = {
 			})
 	},
 
+	getSaved: function(){
+
+		return axios.get('/api')
+			.then(function(response){
+				// console.log("inside get saved function");
+				// console.log(response.data);
+				return response.data;
+			});
+	},
+
 	saveArticle: function(article, i){
 		// console.log(article);
 		return axios.post('/api', article)
-			// .then(function(results){
+			.then(function(results){
 
-			// 	console.log("Posted to MongoDB");
-				// return(results);
-			// })
+				// console.log("Posted to MongoDB");
+				return(results);
+			})
 	}
 
 	// getSearch: function(){

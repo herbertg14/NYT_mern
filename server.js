@@ -38,14 +38,14 @@ app.get('/', function(req,res){
 
 //CHECK
 app.get('/api/', function(req,res){
-	Article.find({})
-		.exec(function(err,doc){
-			if (err){
-				console.log(err);
-			}else{
-				res.send(doc);
-			}
-		})
+  Article.find({})
+    .exec(function(err,doc){
+      if (err){
+        console.log(err);
+      }else{
+        res.send(doc);
+      }
+    })
 });
 
 //CHECK

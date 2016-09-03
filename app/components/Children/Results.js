@@ -8,6 +8,9 @@ var saveArticle =  function(search, i){
 		// console.log("article: ", article);
 
 		helpers.saveArticle(article, i);
+			// .then(function(data){
+			// 	console.log("saved the article got data back");
+			// })
 	}
 
 var Results = React.createClass({

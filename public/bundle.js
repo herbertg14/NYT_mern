@@ -19768,7 +19768,8 @@
 	            searchTerm: "",
 	            startYear: "",
 	            endYear: "",
-	            results: []
+	            results: [],
+	            saved: []
 	        };
 	    },
 
@@ -19800,6 +19801,22 @@
 	                // console.log(data);
 	            }.bind(this));
 	        }
+	        helpers.getSaved();
+	    },
+
+	    componentDidMount: function componentDidMount() {
+
+	        // Get the latest saved data.
+	        helpers.getSaved().then(function (response) {
+	            if (response != this.state.saved) {
+	                console.log("componentDidMount");
+	                console.log("History", response);
+
+	                this.setState({
+	                    saved: response
+	                });
+	            }
+	        }.bind(this));
 	    },
 
 	    render: function render() {
@@ -19819,7 +19836,7 @@
 	            React.createElement(
 	                'div',
 	                { className: 'col-md-12' },
-	                React.createElement(Saved, null)
+	                React.createElement(Saved, { saved: this.state.saved })
 	            )
 	        );
 	    }
@@ -19946,6 +19963,9 @@
 		// console.log("article: ", article);
 
 		helpers.saveArticle(article, i);
+		// .then(function(data){
+		// 	console.log("saved the article got data back");
+		// })
 	};
 
 	var Results = React.createClass({
@@ -20007,7 +20027,7 @@
 
 	var helpers = {
 		runQuery: function runQuery(searchTerm, startYear, endYear) {
-			console.log("in run query");
+			// console.log("in run query");
 
 			var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + searchTerm + "&page=0&sort=newest&begin_date=" + startYear + "0101&end_date=" + endYear + "0101&api-key=" + key;
 			var options = {
@@ -20029,14 +20049,22 @@
 			});
 		},
 
+		getSaved: function getSaved() {
+
+			return axios.get('/api').then(function (response) {
+				// console.log("inside get saved function");
+				// console.log(response.data);
+				return response.data;
+			});
+		},
+
 		saveArticle: function saveArticle(article, i) {
 			// console.log(article);
-			return axios.post('/api', article);
-			// .then(function(results){
+			return axios.post('/api', article).then(function (results) {
 
-			// 	console.log("Posted to MongoDB");
-			// return(results);
-			// })
+				// console.log("Posted to MongoDB");
+				return results;
+			});
 		}
 
 		// getSearch: function(){
@@ -21281,7 +21309,19 @@
 						"Saved Articles"
 					)
 				),
-				React.createElement("div", { className: "panel-body text-center" })
+				React.createElement(
+					"div",
+					{ className: "panel-body text-center" },
+					this.props.saved.map(function (search, i) {
+						return React.createElement(
+							"p",
+							{ key: i },
+							search.title,
+							" - ",
+							search.date
+						);
+					})
+				)
 			);
 		}
 	});

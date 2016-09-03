@@ -11,7 +11,8 @@ var Main = React.createClass({
             searchTerm:"",
             startYear:"",
             endYear:"",
-            results:[]
+            results:[],
+            saved: []
         }
     },
 
@@ -36,6 +37,7 @@ var Main = React.createClass({
     						results: data
     					})
 
+
     					///////////////////////////
 
     					// KEEP WORKING HERE 
@@ -44,6 +46,23 @@ var Main = React.createClass({
     				// console.log(data);
     			}.bind(this))
     	}
+        helpers.getSaved();
+    },
+
+    componentDidMount: function(){
+
+        // Get the latest saved data.
+        helpers.getSaved()
+            .then(function(response){
+                if (response != this.state.saved){
+                    console.log("componentDidMount");
+                    console.log ("History", response);
+
+                    this.setState({
+                        saved: response
+                    })
+                }
+            }.bind(this))
     },
 
     render: function(){
@@ -59,7 +78,7 @@ var Main = React.createClass({
                 </div>
 
                 <div className='col-md-12'>
-                    <Saved/>
+                    <Saved saved={this.state.saved}/>
                 </div>
             </div>
         )

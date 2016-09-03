@@ -10,6 +10,12 @@ var Saved = React.createClass({
 				</div>
 				<div className="panel-body text-center">
 
+					{this.props.saved.map(function(search, i)
+						{
+							return <p key={i}>{search.title} - {search.date}</p> 
+						}
+					)}
+
 				</div>
 			</div>
 
