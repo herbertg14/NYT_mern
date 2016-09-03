@@ -19785,7 +19785,23 @@
 
 	            console.log("update to search made");
 
-	            helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear);
+	            helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear).then(function (data) {
+	                if (data != this.state.results) {
+	                    // console.log("API data", data);
+	                    this.setState({
+	                        results: data
+	                    }).then(function () {
+	                        console.log("inside the promise");
+	                        console.log(this.state.results);
+	                    }.bind(this));
+
+	                    ///////////////////////////
+
+	                    // KEEP WORKING HERE 
+	                    ///////////////////////////
+	                }
+	                // console.log(data);
+	            }.bind(this));
 	        }
 	    },
 
@@ -20007,24 +20023,13 @@
 			};
 
 			return axios.get(queryURL).then(function (response) {
-				console.log("here is the response");
-				console.log(response);
+				// console.log("here is the response");
+				var data = response.data.response.docs;
+				// console.log(data);
+				return data;
 			});
-
-			// request.get({
-			//   url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-			//   qs: {
-			//     'api-key': "910f87367bad43da8984cee4e521240a",
-			//     'q': searchTerm,
-			//     'begin_date': "20120906",
-			//     'end_date': "20160203",
-			//     'sort': "newest"
-			//   },
-			// }, function(err, response, body) {
-			//   body = JSON.parse(body);
-			//   console.log(body);
-			// })
 		}
+
 	};
 	module.exports = helpers;
 

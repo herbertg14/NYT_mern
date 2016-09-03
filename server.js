@@ -49,9 +49,11 @@ app.get('/api/', function(req,res){
 });
 
 //CHECK
-// app.post('/api/:article', function(req,res){
-// 	var
-// })
+app.post('/api/', function(req,res){
+	console.log("posting");
+	console.log(req.body);
+	// var newSearch = new Article(req.body)
+})
 
 //Listener
 app.listen(PORT, function(){

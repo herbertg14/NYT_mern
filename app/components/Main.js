@@ -29,6 +29,20 @@ var Main = React.createClass({
     		console.log("update to search made");
 
     		helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
+    			.then(function(data){
+    				if (data != this.state.results){
+    					// console.log("API data", data);
+    					this.setState({
+    						results: data
+    					})
+
+    					///////////////////////////
+
+    					// KEEP WORKING HERE 
+    					///////////////////////////
+    				}
+    				// console.log(data);
+    			}.bind(this))
     	}
     },
 
