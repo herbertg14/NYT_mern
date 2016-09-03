@@ -31,7 +31,7 @@ var Results = React.createClass({
 						return <div key={i}>
 							<p>{search.headline.main}</p>
 							<br/>
-							<p>{search.web}</p>
+							
 							<button type="button" className="btn btn-primary" onClick={boundClick}>Save</button>
 						</div>
 						// return <p key={i}>{search.lead_paragraph}</p>
