@@ -12,13 +12,16 @@ var Saved = React.createClass({
 
 					{this.props.saved.map(function(search, i)
 						{
-							return <p key={i}>{search.title} - {search.date}</p> 
+							return( 
+								<div>
+									<p key={i}>{search.title}<a href={search.url}>  link here</a></p> 
+									
+								</div>)
 						}
 					)}
 
 				</div>
 			</div>
-
 		)
 	}
 });

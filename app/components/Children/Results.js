@@ -8,6 +8,7 @@ var saveArticle =  function(search, i){
 		// console.log("article: ", article);
 
 		helpers.saveArticle(article, i);
+		// updateSaved();
 
 		// this.updateSaved();
 			// .then(function(data){
@@ -30,9 +31,11 @@ var Results = React.createClass({
 						// this.props.updateSaved();
 						return <div key={i}>
 							<p>{search.headline.main}</p>
+							<button type="button" className="btn btn-primary" onClick={boundClick}>Save</button>
+							<br/>
 							<br/>
 							
-							<button type="button" className="btn btn-primary" onClick={boundClick}>Save</button>
+							
 						</div>
 						// return <p key={i}>{search.lead_paragraph}</p>
 					})}

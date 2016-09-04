@@ -19782,31 +19782,43 @@
 	    },
 
 	    updateSaved: function updateSaved(saved) {
-	        console.log("updated states of saved");
+	        console.log("going through updateSaved");
+	        helpers.getSaved().then(function (response) {
+	            if (response != this.state.saved) {
+	                console.log("componentDidMount");
+	                console.log("History", response);
+
+	                this.setState({
+	                    saved: response
+	                });
+	            }
+	        }.bind(this));
 	    },
 
 	    componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-	        if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear) {
+	        if (prevState.saved != this.state.saved || prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear) {
 
 	            console.log("update to search made");
 
-	            helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear).then(function (data) {
-	                if (data != this.state.results) {
-	                    console.log("Receiving new data");
-	                    // helpers.getSaved();
-	                    this.setState({
-	                        results: data
-	                    });
+	            if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear) {
+	                helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear).then(function (data) {
+	                    if (data != this.state.results) {
+	                        console.log("Receiving new data");
+	                        // helpers.getSaved();
+	                        this.setState({
+	                            results: data
+	                        });
 
-	                    ///////////////////////////
+	                        ///////////////////////////
 
-	                    // KEEP WORKING HERE 
-	                    ///////////////////////////
-	                }
-	                // console.log(data);
-	            }.bind(this));
-	        } else if (prevState.saved != this.state.saved) {
-	            console.log("saved articles updated");
+	                        // KEEP WORKING HERE 
+	                        ///////////////////////////
+	                    }
+	                    // console.log(data);
+	                }.bind(this));
+	            } else if (prevState.saved != this.state.saved) {
+	                console.log("checking for saved ariticles");
+	            }
 	        }
 	        // .bind(this)
 	        // helpers.getSaved();
@@ -19839,7 +19851,7 @@
 	            React.createElement(
 	                'div',
 	                { className: 'col-md-12' },
-	                React.createElement(Results, { results: this.state.results })
+	                React.createElement(Results, { results: this.state.results, updateSaved: this.updateSaved })
 	            ),
 	            React.createElement(
 	                'div',
@@ -19972,6 +19984,7 @@
 		// console.log("article: ", article);
 
 		helpers.saveArticle(article, i);
+		// updateSaved();
 
 		// this.updateSaved();
 		// .then(function(data){
@@ -20010,12 +20023,13 @@
 								null,
 								search.headline.main
 							),
-							React.createElement('br', null),
 							React.createElement(
 								'button',
 								{ type: 'button', className: 'btn btn-primary', onClick: boundClick },
 								'Save'
-							)
+							),
+							React.createElement('br', null),
+							React.createElement('br', null)
 						);
 						// return <p key={i}>{search.lead_paragraph}</p>
 					})
@@ -21326,11 +21340,18 @@
 					{ className: "panel-body text-center" },
 					this.props.saved.map(function (search, i) {
 						return React.createElement(
-							"p",
-							{ key: i },
-							search.title,
-							" - ",
-							search.date
+							"div",
+							null,
+							React.createElement(
+								"p",
+								{ key: i },
+								search.title,
+								React.createElement(
+									"a",
+									{ href: search.url },
+									"  link here"
+								)
+							)
 						);
 					})
 				)

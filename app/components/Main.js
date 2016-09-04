@@ -25,34 +25,48 @@ var Main = React.createClass({
     },
 
     updateSaved: function(saved){
-        console.log("updated states of saved");
+        console.log("going through updateSaved");
+        helpers.getSaved()
+            .then(function(response){
+                if (response != this.state.saved){
+                    console.log("componentDidMount");
+                    console.log ("History", response);
+
+                    this.setState({
+                        saved: response
+                    })
+                }
+            }.bind(this))
     },
 
     componentDidUpdate: function(prevProps, prevState){
-    	if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear){
+    	if (prevState.saved != this.state.saved || prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear){
 
     		console.log("update to search made");
 
-    		helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
-    			.then(function(data){
-    				if (data != this.state.results){
-    					console.log("Receiving new data");
-                        // helpers.getSaved();
-    					this.setState({
-    						results: data
-    					})
+            if (prevState.searchTerm != this.state.searchTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear){
+                helpers.runQuery(this.state.searchTerm, this.state.startYear, this.state.endYear)
+                    .then(function(data){
+                        if (data != this.state.results){
+                            console.log("Receiving new data");
+                            // helpers.getSaved();
+                            this.setState({
+                                results: data
+                            })
 
 
-    					///////////////////////////
+                            ///////////////////////////
 
-    					// KEEP WORKING HERE 
-    					///////////////////////////
-    				}
-    				// console.log(data);
-    			}.bind(this))
-    	} else if (prevState.saved != this.state.saved){
-            console.log("saved articles updated");
-        }
+                            // KEEP WORKING HERE 
+                            ///////////////////////////
+                        }
+                        // console.log(data);
+                    }.bind(this))                
+                }else if(prevState.saved != this.state.saved){
+                    console.log("checking for saved ariticles");    
+                }
+
+    	}
         // .bind(this)
         // helpers.getSaved();
     },
@@ -82,7 +96,7 @@ var Main = React.createClass({
                 </div>
 
                 <div className='col-md-12'>
-                    <Results results={this.state.results}/>
+                    <Results results={this.state.results} updateSaved={this.updateSaved}/>
                 </div>
 
                 <div className='col-md-12'>
